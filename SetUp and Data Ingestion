@@ -1,0 +1,27 @@
+# 1. Setup & Data Ingestion
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import kagglehub
+import warnings
+import os
+warnings.filterwarnings('ignore')
+
+print('Downloading dataset from Kaggle...')
+path = kagglehub.dataset_download('sonalshinde123/student-placement-dataset')
+
+# Locate train.csv directly inside the downloaded path
+train_path = None
+for root, dirs, files in os.walk(path):
+    for file in files:
+        if file == 'train.csv':
+            train_path = os.path.join(root, file)
+            break
+
+if train_path:
+    df = pd.read_csv(train_path)
+    print(f'Dataset Loaded: train.csv. Shape: {df.shape}')
+    display(df.head())
+else:
+    print('Error: train.csv not found in the downloaded files.')
