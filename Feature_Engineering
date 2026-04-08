@@ -1,0 +1,15 @@
+# 3. Feature Engineering
+# The project requires 3+ new features. We will derive them from the available actual dataset columns.
+
+# Feature 1: Total_Skill_Score (Aggregating various test scores and skill ratings)
+df['Total_Skill_Score'] = df['Coding_Skills'] + df['Communication_Skills'] + df['Aptitude_Test_Score'] + df['Soft_Skills_Rating']
+
+# Feature 2: Practical_Experience (Combining Internships and Projects)
+df['Practical_Experience'] = df['Internships'] + df['Projects']
+
+# Feature 3: Academic_Consistency (CGPA heavily penalized by Backlogs)
+# Assumption: Each backlog reduces the effective academic weight.
+df['Academic_Consistency'] = df['CGPA'] / (1 + df['Backlogs'])
+
+print('Engineered Features Preview:')
+display(df[['Total_Skill_Score', 'Practical_Experience', 'Academic_Consistency']].head())
