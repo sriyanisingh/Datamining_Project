@@ -1,0 +1,20 @@
+# 2. Preprocessing
+# Check for missing values
+print("Missing values before imputation:", df.isnull().sum().sum())
+
+# Impute numericals with median, categoricals with mode (Industry Standard)
+for col in df.columns:
+    if df[col].dtype in ['int64', 'float64']:
+        df[col] = df[col].fillna(df[col].median())
+    else:
+        if not df[col].mode().empty:
+            df[col] = df[col].fillna(df[col].mode()[0])
+
+# Encode Categorical Variables (Target Encoding / Mapping)
+df['Gender_Num'] = df['Gender'].map({'Male': 1, 'Female': 0})
+df['Placement_Status_Num'] = df['Placement_Status'].map({'Placed': 1, 'Not Placed': 0})
+
+# One-Hot encode 'Degree' and 'Branch'
+df = pd.get_dummies(df, columns=['Degree', 'Branch'], drop_first=True)
+
+print("Preprocessing Complete.")
